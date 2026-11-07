@@ -9,7 +9,7 @@ import './App.css'
 
 function App() {
   const fireworksRef = useRef(null)
-  const [soundEnabled, setSoundEnabled] = useState(true)
+  const [soundEnabled, setSoundEnabled] = useState(false)
   const [diyaLit, setDiyaLit] = useState(false)
   const [rsvpStatus, setRsvpStatus] = useState(false)
   const [customWish, setCustomWish] = useState('')
@@ -33,21 +33,25 @@ function App() {
     if (fireworksRef.current) {
       fireworksRef.current.launchGrandFinale()
     }
-    // Also trigger confetti
+    // Lightweight confetti
     confetti({
-      particleCount: 120,
-      spread: 90,
+      particleCount: 50,
+      spread: 75,
       origin: { y: 0.6 },
       colors: ['#FFD700', '#FF1493', '#00F0FF', '#FFA500', '#7000FF']
     })
-    playChime(784)
+    if (soundEnabled) {
+      playChime(784)
+    }
   }
 
   // RSVP Acceptance
   const handleAcceptInvite = () => {
     setRsvpStatus(true)
     handleGrandFinale()
-    playBurst()
+    if (soundEnabled) {
+      playBurst()
+    }
   }
 
   // Send sweet note
@@ -56,16 +60,29 @@ function App() {
     if (!customWish.trim()) return
     setWishSent(true)
     confetti({
-      particleCount: 60,
-      spread: 60,
+      particleCount: 35,
+      spread: 50,
       origin: { y: 0.8 },
       colors: ['#FF69B4', '#FFD700', '#FF4500']
     })
-    playChime(880)
+    if (soundEnabled) {
+      playChime(880)
+    }
+  }
+
+  // Sky click to launch without blocking scroll
+  const handleSkyClick = (e) => {
+    // Only launch if clicking on blank container background, not on interactive cards or buttons
+    if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.no-sky-click') || e.target.closest('.diya-wrapper')) {
+      return
+    }
+    if (fireworksRef.current) {
+      fireworksRef.current.launchRocket(e.clientX, e.clientY)
+    }
   }
 
   return (
-    <div className="diwali-app">
+    <div className="diwali-app" onClick={handleSkyClick}>
       {/* Dynamic Fireworks & Rocket Particle Canvas */}
       <FireworksCanvas ref={fireworksRef} soundEnabled={soundEnabled} />
 

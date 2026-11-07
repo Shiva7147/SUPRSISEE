@@ -18,8 +18,8 @@ export function Diya({
     if (newState) {
       playChime(660)
       confetti({
-        particleCount: 50,
-        spread: 70,
+        particleCount: 40,
+        spread: 60,
         origin: { y: 0.7 },
         colors: ['#FFD700', '#FFA500', '#FF4500', '#FF1493']
       })
@@ -42,7 +42,7 @@ export function Diya({
       }}
     >
       <div style={{ position: 'relative', width: size, height: size * 0.9 }}>
-        {/* Glow Halo behind flame */}
+        {/* Soft feather glow behind flame without expensive blur filters */}
         {lit && (
           <div
             className="diya-aura"
@@ -54,8 +54,7 @@ export function Diya({
               width: 70 * scale,
               height: 70 * scale,
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(255, 170, 0, 0.65) 0%, rgba(255, 69, 0, 0.25) 50%, transparent 80%)',
-              filter: 'blur(8px)',
+              background: 'radial-gradient(circle, rgba(255, 170, 0, 0.55) 0%, rgba(255, 69, 0, 0.2) 45%, transparent 75%)',
               pointerEvents: 'none',
               animation: 'pulseGlow 2.5s infinite alternate ease-in-out'
             }}
@@ -86,7 +85,7 @@ export function Diya({
                 className="flicker-inner"
               />
               {/* Sparkle core dot */}
-              <circle cx="70" cy="55" r="3.5" fill="#FFFFFF" />
+              <circle cx="70" cy="55" r="3" fill="#FFFFFF" />
             </g>
           )}
 
@@ -98,78 +97,67 @@ export function Diya({
             strokeLinecap="round"
           />
 
-          {/* Earthen Lamp / Diya Body */}
-          {/* Base shadow */}
-          <ellipse cx="70" cy="108" rx="42" ry="7" fill="rgba(0,0,0,0.35)" filter="blur(2px)" />
-
-          {/* Outer Terracotta Bowl */}
+          {/* Clay Oil Lamp Body */}
           <path
-            d="M 22,70 C 22,96 44,106 70,106 C 96,106 118,96 118,70 C 104,78 88,82 70,82 C 52,82 36,78 22,70 Z"
-            fill="url(#terracottaGrad)"
-            stroke="#D97706"
+            d="M 20,74 C 20,95 45,108 70,108 C 95,108 120,95 120,74 C 112,77 92,80 70,80 C 48,80 28,77 20,74 Z"
+            fill="url(#clayGradient)"
+            stroke="#8D2F15"
             strokeWidth="1.5"
           />
 
-          {/* Rim with Golden Ornamentation */}
-          <ellipse
-            cx="70"
-            cy="70"
-            rx="48"
-            ry="12"
-            fill="url(#rimGrad)"
-            stroke="#F59E0B"
-            strokeWidth="1.8"
+          {/* Golden Rim & Floral Pattern */}
+          <path
+            d="M 20,74 C 35,78 52,80 70,80 C 88,80 105,78 120,74 C 105,72 88,70 70,70 C 52,70 35,72 20,74 Z"
+            fill="url(#goldRimGradient)"
+            stroke="#D97706"
+            strokeWidth="1"
           />
 
-          {/* Golden engraved dots on rim */}
-          <circle cx="34" cy="71" r="1.8" fill="#FEF08A" />
-          <circle cx="46" cy="74" r="1.8" fill="#FEF08A" />
-          <circle cx="58" cy="76" r="1.8" fill="#FEF08A" />
-          <circle cx="70" cy="77" r="2.2" fill="#FEF08A" />
-          <circle cx="82" cy="76" r="1.8" fill="#FEF08A" />
-          <circle cx="94" cy="74" r="1.8" fill="#FEF08A" />
-          <circle cx="106" cy="71" r="1.8" fill="#FEF08A" />
+          {/* Decorative Jewels along the rim */}
+          <circle cx="45" cy="74" r="2" fill="#FEF08A" />
+          <circle cx="58" cy="76" r="2.2" fill="#E11D48" />
+          <circle cx="70" cy="77" r="2.5" fill="#FEF08A" />
+          <circle cx="82" cy="76" r="2.2" fill="#E11D48" />
+          <circle cx="95" cy="74" r="2" fill="#FEF08A" />
 
-          {/* Inner Oil pool reflection */}
-          <ellipse
-            cx="70"
-            cy="71"
-            rx="38"
-            ry="7.5"
-            fill="url(#oilGrad)"
+          {/* Base Pedestal */}
+          <path
+            d="M 52,107 L 88,107 L 94,114 C 94,116 92,118 88,118 L 52,118 C 48,118 46,116 46,114 Z"
+            fill="url(#clayDarkGradient)"
+            stroke="#5C1D06"
+            strokeWidth="1.5"
           />
 
-          {/* Gradients */}
+          {/* SVG Gradients */}
           <defs>
-            <linearGradient id="terracottaGrad" x1="70" y1="70" x2="70" y2="106" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#EA580C" />
-              <stop offset="0.6" stopColor="#C2410C" />
-              <stop offset="1" stopColor="#7C2D12" />
-            </linearGradient>
-
-            <linearGradient id="rimGrad" x1="22" y1="70" x2="118" y2="70" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#F59E0B" />
-              <stop offset="0.5" stopColor="#FDE68A" />
-              <stop offset="1" stopColor="#D97706" />
-            </linearGradient>
-
-            <radialGradient id="oilGrad" cx="70" cy="71" r="38" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#FBBF24" stopOpacity="0.8" />
-              <stop offset="0.7" stopColor="#B45309" stopOpacity="0.9" />
-              <stop offset="1" stopColor="#451A03" />
-            </radialGradient>
-
             <linearGradient id="flameOuter" x1="70" y1="12" x2="70" y2="74" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#FEF08A" />
-              <stop offset="0.3" stopColor="#FBBF24" />
-              <stop offset="0.7" stopColor="#F97316" />
-              <stop offset="1" stopColor="#DC2626" />
+              <stop offset="0%" stopColor="#FFF7ED" />
+              <stop offset="25%" stopColor="#FEF08A" />
+              <stop offset="65%" stopColor="#F59E0B" />
+              <stop offset="100%" stopColor="#DC2626" />
             </linearGradient>
 
             <linearGradient id="flameInner" x1="70" y1="26" x2="70" y2="65" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#FFFFFF" />
-              <stop offset="0.5" stopColor="#FEF08A" />
-              <stop offset="1" stopColor="#F59E0B" />
+              <stop offset="0%" stopColor="#FFFFFF" />
+              <stop offset="50%" stopColor="#FEF08A" />
+              <stop offset="100%" stopColor="#F59E0B" />
+            </linearGradient>
+
+            <linearGradient id="clayGradient" x1="70" y1="74" x2="70" y2="108" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#C2410C" />
+              <stop offset="50%" stopColor="#9A3412" />
+              <stop offset="100%" stopColor="#7C2D12" />
+            </linearGradient>
+
+            <linearGradient id="clayDarkGradient" x1="70" y1="107" x2="70" y2="118" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#7C2D12" />
+              <stop offset="100%" stopColor="#451A03" />
+            </linearGradient>
+
+            <linearGradient id="goldRimGradient" x1="20" y1="74" x2="120" y2="74" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#D97706" />
+              <stop offset="50%" stopColor="#FDE68A" />
+              <stop offset="100%" stopColor="#D97706" />
             </linearGradient>
           </defs>
         </svg>
@@ -178,18 +166,15 @@ export function Diya({
       {isInteractive && (
         <span 
           style={{
-            marginTop: '0.4rem',
+            marginTop: '0.5rem',
             fontSize: '0.85rem',
-            fontWeight: 600,
-            color: lit ? '#FCD34D' : '#94A3B8',
-            letterSpacing: '0.04em',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.35rem',
-            textShadow: lit ? '0 0 10px rgba(251, 191, 36, 0.7)' : 'none'
+            fontWeight: 700,
+            letterSpacing: '0.5px',
+            color: lit ? '#FEF08A' : '#94A3B8',
+            transition: 'color 0.2s ease'
           }}
         >
-          {lit ? '✨ Glowing For You' : `🪔 Click: ${label}`}
+          {lit ? "✨ Our Flame Burns Bright ✨" : "👉 Tap to Light our Diya"}
         </span>
       )}
     </div>
